@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang=”en”>
+
+<style>
+    .thumb {
+    width: 200px;
+    height: 150px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+    } 
+       
+ </style>
+
+<head>
+    <meta charset=”UTF-8″ />
+    <title>Upload images</title>
+</head>
+<body>
+    <input id="file-input" type="file" multiple>
+    <div id="preview"></div>    
+</body>
+</html>
+
+
+
+<script>
+
+function previewImages() {
+
+var preview = document.querySelector('#preview');
+
+if (this.files) {
+   if(this.files[10] == null){
+  [].forEach.call(this.files, readAndPreview);
+   }else {
+       alert("mas de 10 archivos");
+   }
+}
+
+function readAndPreview(file) {
+
+  
+  if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+    return alert(file.name + " is not an image");
+  }
+  
+  var reader = new FileReader();
+  
+  reader.addEventListener("load", function() {
+    
+    
+    var image = new Image();
+    image.height = 100;
+    image.title  = file.name;
+    image.src    = this.result;
+    image.addEventListener("click", function(){
+              console.log("click en la imagen");
+              window.open(file,'_blank');
+            })
+    preview.appendChild(image);
+  });
+  
+  reader.readAsDataURL(file);
+  
+}
+
+}
+
+document.querySelector('#file-input').addEventListener("change", previewImages);
+
+
+
+
+
+
+</script>
