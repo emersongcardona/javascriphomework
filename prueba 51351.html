@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang=”en”>
-
 <style>
-    .thumb {
+.thumb {
     width: 200px;
     height: 150px;
     border: 1px solid #000;
     margin: 10px 5px 0 0;
     } 
-       
- </style>
 
+    .remove {
+  /* display: block; */
+  /* background: #444; */
+  /* border: 1px solid black; */
+  color: rgb(2, 2, 2);
+  text-align: center;
+  cursor: pointer;
+}
+</style>
 <head>
     <meta charset=”UTF-8″ />
-    <title>Upload images</title>
+    <title>Document</title>
 </head>
 <body>
     <input id="file-input" type="file" multiple>
     <div id="preview"></div>    
 </body>
 </html>
-
 
 
 <script>
@@ -47,16 +52,30 @@ function readAndPreview(file) {
   var reader = new FileReader();
   
   reader.addEventListener("load", function() {
-    
-    
     var image = new Image();
     image.height = 100;
     image.title  = file.name;
     image.src    = this.result;
+    image.id = file.name;
+    var encodedString = window.btoa(image.src);
+    console.log(encodedString);
+    var Url = window.URL.createObjectURL(file);
+    image.src = Url;
     image.addEventListener("click", function(){
               console.log("click en la imagen");
-              window.open(file,'_blank');
+              window.open(image.src,'_blank');
             })
+
+    
+    let btn = document.createElement("button");
+    btn.innerHTML = "Delete: " + image.id;
+    btn.addEventListener("click", function () {
+    document.getElementById(image.id).remove();
+    this.remove();
+    });
+
+     document.body.appendChild(btn);
+
     preview.appendChild(image);
   });
   

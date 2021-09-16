@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang=”en”>
+
+<style>
+
+.thumb {
+    width: 200px;
+    height: 150px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+    } 
+
+input[type="file"] {
+  display: block;
+}
+.imageThumb {
+  max-height: 75px;
+  border: 2px solid;
+  padding: 1px;
+  cursor: pointer;
+}
+.pip {
+  display: inline-block;
+  margin: 10px 10px 0 0;
+}
+.remove {
+  /* display: block; */
+  /* background: #444; */
+  /* border: 1px solid black; */
+  color: rgb(2, 2, 2);
+  text-align: center;
+  cursor: pointer;
+}
+/* .remove:hover {
+  background: white;
+  color: black;
+} */
+      
+ </style>
+
+<head>
+    <meta charset=”UTF-8″ />
+    <title>Upload images</title>
+</head>
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <div class="field" align="left">
+    <h3>Upload your images</h3>
+    <input type="file" id="files" name="files[]" multiple />
+  </div> 
+</body>
+</html>
+
+
+
+<script>
+$(document).ready(function() {
+    $("#files").on("change", function(e) {
+      var files = e.target.files,
+        filesLength = files.length;
+      for (var i = 0; i < filesLength; i++) {
+        var f = files[i]
+        var fileReader = new FileReader();
+
+
+        fileReader.onload = (function(e) {
+          var file = e.target;
+            var image = new Image();
+            image.height = 100;
+            image.title  = file.name;
+            image.src    = this.result;
+            image.addEventListener("click", function(){
+              console.log("click en la imagen");
+              window.open(file,'_blank');
+            })
+
+
+            var container = document.createElement('span');
+            container.appendChild(image);
+
+            var container = document.createElement("<span class=\"pip\">" +
+            "<img class=\"thumb\" src=\"" + image.src + "\" title=\"" + file.name + "\"/>" +
+            "<br/><span class=\"remove\">Remove</span>" +
+            "</span>").insertAfter("#files");
+            $(".remove").click(function(){
+            $(this).parent(".pip").remove(););
+
+            container.appendChild(image);
+
+
+
+            $('#files').append(container);
+
+          $("<span class=\"pip\">" +
+            "<img class=\"thumb\" src=\"" + image.src + "\" title=\"" + file.name + "\"/>" +
+            "<br/><span class=\"remove\">Remove</span>" +
+            "</span>").insertAfter("#files");
+          $(".remove").click(function(){
+            $(this).parent(".pip").remove();
+          });
+          
+        });
+        fileReader.readAsDataURL(f);
+      }
+    });
+
+});
+
+
+
+
+
+</script>
